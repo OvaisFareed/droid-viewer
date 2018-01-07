@@ -1,0 +1,7 @@
+{
+    "name": "Devdactic Ionic to Heroku Example",
+    "description": "A simple Ionic app for Heroku",
+    "repository": "<a class="vglnk" href="https://github.com/OvaisFareed/droid-viewer.git" rel="nofollow"><span>https</span><span>://</span><span>github</span><span>.</span><span>com</span><span>/</span><span>saimon24</span><span>/</span><span>devdactic</span><span>-</span><span>tinderstyle</span></a>",
+    "logo": "<a class="vglnk" href="http://pathToYourLogo.png" rel="nofollow"><span>http</span><span>://</span><span>pathToYourLogo</span><span>.</span><span>png</span></a>",
+    "keywords": ["ionic", "devdactic", "whatever"]
+}
