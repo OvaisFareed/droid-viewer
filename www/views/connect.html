@@ -1,8 +1,19 @@
 <ion-view class="video-chat">
+    
     <ion-content>
+        
      <div id="videos">
         <div id="subscriber"></div>
         <div id="publisher"></div>
-    </div>
-</ion-content>    
+    </div>    
+</ion-content> 
+<ion-footer-bar>
+  <ion-toolbar>
+    <ion-title>Start a Video Call</ion-title>
+        <button type="button" class="button button-calm" ng-click="startVideoCall()" ng-disabled="callInProgress">
+            <i class="icon ion-add-outline"></i> Call
+        </button>    
+  </ion-toolbar>
+</ion-footer-bar>
 </ion-view>
+ 

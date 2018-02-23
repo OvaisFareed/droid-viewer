@@ -1,13 +1,15 @@
 angular.module('starter')
+.controller('DemoCtrl', function ($scope, $http, SERVER_BASE_URL) {
+    $scope.callInProgress = false;
 
-.controller('DemoCtrl', DemoCtrl);
-
-function DemoCtrl($scope, SERVER_BASE_URL){
-
-
-        fetch(SERVER_BASE_URL + '/session').then(function (res) {
-            return res.json()
-        }).then(function (res) {
+    // start Video Call
+    $scope.startVideoCall = function () {
+        $scope.callInProgress = true;
+        $http.get(SERVER_BASE_URL + '/session')
+        .then(function (res) {
+        // fetch(SERVER_BASE_URL + '/session').then(function (res) {
+            // return res.json()
+        // }).then(function (res) {
             apiKey = res.apiKey;
             sessionId = res.sessionId;
             token = res.token;
@@ -51,5 +53,7 @@ function DemoCtrl($scope, SERVER_BASE_URL){
                 }
             });
         }
+    }
+    // $scope.startVideoCall();
 
-}
+});
