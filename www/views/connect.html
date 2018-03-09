@@ -1,16 +1,33 @@
-<ion-view class="video-chat">
+<ion-view class="video-chat" ng-init="initializeCtrl()">
     
     <ion-content>
-        
+        <!--video chat-->
+        <!--start-->
      <div id="videos">
         <div id="subscriber"></div>
         <div id="publisher"></div>
-    </div>    
+    </div>
+<!--end-->
+
+   <!--text chat-->
+        <!--start-->
+        <div id="textchat">
+         <p id="history"></p>
+         <form ng-submit="sendMessage()">
+              <input type="text" placeholder="Input your text here" id="msgTxt"/>
+              <br>
+              <button type="submit" id="sendBtn" class="button button-primary">send</button>
+         </form>
+    </div>
+    <!--end-->
 </ion-content> 
 <ion-footer-bar>
   <ion-toolbar>
+      <button type="button" class="button button-royal" ng-click="shareScreen()" ng-disabled="requestInProgress">
+            <i class="icon ion-add-outline"></i> Share Screen
+        </button>
     <ion-title>Start a Video Call</ion-title>
-        <button type="button" class="button button-calm" ng-click="startVideoCall()" ng-disabled="callInProgress">
+        <button type="button" class="button button-calm" ng-click="startVideoCall()" ng-disabled="requestInProgress">
             <i class="icon ion-add-outline"></i> Call
         </button>    
   </ion-toolbar>

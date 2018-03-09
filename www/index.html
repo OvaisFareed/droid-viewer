@@ -18,6 +18,7 @@
 
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
+    <link rel="chrome-webstore-item" href="https://chrome.google.com/webstore/detail/caegookndhipklfbimkpeejejhkmldpl">
 
     <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
     <link href="css/ionic.app.css" rel="stylesheet">
@@ -41,9 +42,8 @@
     <ion-pane>
       <ion-header-bar class="bar-stable">
         <h1 class="title">Droid Viewer</h1>
-        <button ui-sref="connect" class="button button-calm">
-    Video Call
-  </button>
+        <button ui-sref="connect" class="button button-calm">Video Call</button>
+        <button ng-click="chrome.webstore.install()" id="install-button">Add to Chrome</button>
       </ion-header-bar>
       <ion-content>
 </ion-content>
