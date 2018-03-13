@@ -4,17 +4,23 @@ angular.module('starter')
         // Go to https://tokbox.com/account to find your OpenTok
         // API key and generate a test session ID and token:
         var apiKey = "", sessionId = "", token = "", session, sessionConnected = false;
-
+        var alphabets = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        var shortId_length = 8;
+        $scope.dummyCouponCode = '';
         $scope.requestInProgress = false;
 
         // initialize Controller
-        $scope.initializeCtrl = function () {
+        $scope.initializeCtrl = function (fromHome) {
             $http.get(SERVER_BASE_URL + '/session')
                 .then(function (res) {
                     apiKey = res.data.apiKey;
                     sessionId = res.data.sessionId;
                     token = res.data.token;
-                }).catch(handleError);
+                })
+                .catch(handleError);
+                if(fromHome){
+                    generateDummyCouponCode();
+                }
         }
 
         // start Video Call
@@ -147,6 +153,35 @@ angular.module('starter')
                     }
                 });
             }
+
+            $scope.share = function(t, msg, img, link){  
+                if(t == 'w')
+                    window.plugins.socialsharing
+                    .shareViaWhatsApp(msg, '', link);
+                else if(t == 'f')
+                    window.plugins.socialsharing
+                    .shareViaFacebook(msg, img, link);    
+                else if(t == 't')
+                    window.plugins.socialsharing
+                    .shareViaTwitter(msg, img, link);    
+                else if(t == 'sms')
+                    window.plugins.socialsharing
+                    .shareViaSMS(msg+' '+img+' '+link);    
+                else
+                {
+                    var sub = 'Beautiful images inside ..';
+                    window.plugins.socialsharing
+                    .shareViaEmail(msg, sub, '');        
+                }
+            }       
+            
+            // generate Dummy Coupon Code
+        function generateDummyCouponCode () {
+            for (var i = 0; i < shortId_length; i++) {
+                $scope.dummyCouponCode += alphabets.charAt(Math.floor(Math.random() * alphabets.length));
+            }
+            return $scope.dummyCouponCode;
+        }
 
         // Handling all of our errors here by alerting them
         function handleError(error) {
