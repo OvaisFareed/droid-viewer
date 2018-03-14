@@ -1,0 +1,74 @@
+<ion-view view-title="Droid Viewer" ng-init="initializeCtrl(true)">
+    <ion-content>
+            <div class="list card">
+   
+  <div class="item">
+      <!-- </div>
+                    <a class="item item-icon-left positive" href="#/tab/social">
+                        <i class="icon ion-ios-telephone"></i>
+                        Video Call
+                    </a>
+                    <a class="item item-icon-left royal" href="#">
+                            <i class="icon ion-ios-chatboxes"></i>
+                            Chat
+                        </a>
+                        <a class="item item-icon-left balanced" href="#">
+                                <i class="icon ion-music-note"></i>
+                                Start listening
+                            </a>
+                    </div> -->
+                    <div class="row">
+                            <div class="col"></div>
+                            <div class="col">
+                                <h2><b>Droid Viewer</b></h2>                                                    
+                            </div>
+                            <div class="col"></div>                            
+                        </div>
+                    <div class="row">
+                            <div class="col"></div>
+                            <div class="col logo">
+                                <img src="img/icon.png" style="width: 100px; height: 100px; margin-bottom: 25%;">                                
+                            </div>
+                            <div class="col"></div>                            
+                    </div>                 
+                    <div class="row">
+                            <div class="col"><p>Enter Partner ID:</p></div>
+                            <div class="col">
+                                
+                                <input type="text" placeholder="Partner ID" ng-model="partnerId" style="padding-bottom: 20px; border: 1px dotted silver;"> 
+                                                                              
+                            </div>
+                            <div class="col"></div>
+                    </div>
+                    <div class="row">
+                            <div class="col"><p>Or Share:</p></div>
+                            <div class="col"></div>
+                            <div class="col"></div>                            
+                    </div>
+                    <div class="row">
+                            <div class="col"><p>Your Unique ID:</p></div>  
+                            <div class="col"><p><b>{{dummyCouponCode}}</b></p></div>  
+                            <div class="col"></div>  
+                    </div>
+                    <div class="card">
+                            <p>Via: </p>
+                        <div class="item item-text-wrap row">
+                          <button class="button button-light col col-20" ng-click="share('w', 'asd', 'qwe')">
+                              <i class="icon ion-social-whatsapp"></i>
+                          </button>
+                          <button class="button button-light col col-20">
+                              <i class="icon ion-social-facebook"></i>
+                          </button>
+                          <button class="button button-light col col-20">
+                              <i class="icon ion-social-twitter"></i>
+                          </button>  
+                          <button class="button button-light col col-20">
+                              <i class="icon ion-android-textsms"></i>
+                          </button> 
+                          <button class="button button-light col col-20">
+                              <i class="icon ion-ios-email"></i>
+                          </button> 
+                        </div>
+                       </div>
+    </ion-content>
+</ion-view>

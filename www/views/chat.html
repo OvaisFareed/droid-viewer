@@ -1,0 +1,16 @@
+<ion-view view-title="Chats" ng-init="initializeCtrl()">
+        <ion-content class="chat-content">
+               <!--text chat-->
+        <!--start-->
+        <div id="textchat">
+                <p id="history"></p>
+                <form ng-submit="sendMessage()">
+                     <input type="text" placeholder="Input your text here" id="msgTxt"/>
+                     <br>
+                     <button class="button button-calm" type="submit" id="sendBtn" class="button button-primary">send</button>
+                </form>
+           </div>
+           <!--end-->
+       
+       </ion-content>
+</ion-view>
