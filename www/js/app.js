@@ -3,9 +3,10 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-angular.module('starter', ['ionic'])
+angular.module('starter', ['ionic', 'firebase'])
 
   .constant('SERVER_BASE_URL', 'https://droid-viewer.herokuapp.com')
+  .constant('FIREBASE_URL', "https://droid-viewer.firebaseio.com")
 
   .run(function ($ionicPlatform) {
     $ionicPlatform.ready(function () {
@@ -77,28 +78,19 @@ angular.module('starter', ['ionic'])
         }
       })
     
-
-    /*
-      .state('connect', {
-          url: '/connect',
-          templateUrl: 'views/connect.html',
-          controller: 'DemoCtrl'
+      .state('tab.share', {
+        url: '/file-sharing',
+        views: {
+          'tab-file-sharing': {
+            templateUrl: 'views/fileShare.html',
+            controller: 'DemoCtrl',
+            data: {
+              css: 'css/style.css'
+            }
+          }
+        }
       })
       
-      .state('users', {
-          url: '/users',
-          templateUrl: 'templates/users.html',
-          controller: 'UserController'
-      })
-      .state('user', {
-          url: "/users/:userId",
-          templateUrl: "templates/user.html",
-          controller: "UserController"
-      });
-      
-  $urlRouterProvider.otherwise('/');
-  */
-
     // if none of the above states are matched, use this as the fallback
     $urlRouterProvider.otherwise('/tab/');
     $ionicConfigProvider.tabs.position('bottom'); // other values: top

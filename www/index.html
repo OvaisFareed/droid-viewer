@@ -29,6 +29,28 @@
     <!-- ionic/angularjs js -->
     <script src="lib/ionic/js/ionic.bundle.js"></script>
     <script src="lib/opentok/opentok.min.js"></script>
+    <script src="lib/firebase/firebase.js"></script>
+    <script src="lib/firebase/angularfire.min.js"></script>
+    <script src="lib/firebase/firebase-app.js"></script>
+    <script src="lib/firebase/firebase-auth.js"></script>
+    <script src="lib/firebase/firebase-database.js"></script>
+    <script src="lib/firebase/firebase-firestore.js"></script>
+    <script src="lib/firebase/firebase-messaging.js"></script>
+    <script src="lib/firebase/firebase-storage.js"></script>
+
+    <script>
+      // Initialize Firebase
+      var config = {
+        apiKey: "AIzaSyDg34XZpQjLY8YlKAEXfwXAzgPapFjlzWM",
+        authDomain: "droid-viewer.firebaseapp.com",
+        databaseURL: "https://droid-viewer.firebaseio.com",
+        projectId: "droid-viewer",
+        storageBucket: "droid-viewer.appspot.com",
+        messagingSenderId: "847424066427"
+      };
+      firebase.initializeApp(config);
+
+    </script>
 
     <!-- cordova script (this will be a 404 during development) -->
     <script src="cordova.js"></script>

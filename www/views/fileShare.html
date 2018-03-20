@@ -1,0 +1,20 @@
+<ion-view title="File Share" ng-init="initializeCtrl('fileShare')">
+    <ion-nav-buttons side="secondary" ng-if="files && files.length">
+        <button class="button button-assertive" ng-click="deleteAll('Files')">
+            <i class="icon ion-ios-trash"></i> Delete Files</button>
+    </ion-nav-buttons>
+    <div class="fileUploder">
+        <h3>Share File(s)</h3>
+        <input type="file" id="file" name="file" />
+    </div>
+    <div class="list">
+        <a class="item item-divider" ng-if="files && files.length">
+            Recently shared files:
+        </a>
+        <a class="item item-thumbnail-left" ng-repeat="file in files track by $index" href="{{file.downloadURL}}">
+            <img ng-src="{{file.downloadURL}}">
+            <h2>{{file.name}}</h2>
+            <p>{{file.type}}</p>
+        </a>
+    </div>
+</ion-view>

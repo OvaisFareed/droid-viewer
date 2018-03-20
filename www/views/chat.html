@@ -1,7 +1,8 @@
+<!--
 <ion-view view-title="Chats" ng-init="initializeCtrl()">
         <ion-content class="chat-content">
-               <!--text chat-->
-        <!--start-->
+               text chat
+         // start
         <div id="textchat">
                 <p id="history"></p>
                 <form ng-submit="sendMessage()">
@@ -10,7 +11,31 @@
                      <button class="button button-calm" type="submit" id="sendBtn" class="button button-primary">send</button>
                 </form>
            </div>
-           <!--end-->
+           //end
        
        </ion-content>
+</ion-view>
+-->
+
+<ion-view title="Chat" hide-back-button="true" ng-init="initializeCtrl('Chat')">
+    <ion-nav-buttons side="secondary" ng-if="messages && messages.length">
+        <button class="button button-assertive" ng-click="deleteAll('Converstion')">
+            <i class="icon ion-ios-trash"></i> Delete Converstion</button>
+    </ion-nav-buttons>
+    <ion-content padding="true" class="has-header">
+        <ion-list>
+            <ion-item ng-repeat="message in messages track by $index" ng-class="{'mine': message.id == dummyCouponCode}">
+                {{message.text}}
+            </ion-item>
+        </ion-list>
+    </ion-content>
+    <ion-footer-bar class="bar bar-footer bar-stable item-input-inset">
+        <div class="list">
+            <form ng-submit="addMessage()">
+                <label class="item item-input">
+                    <input type="text" placeholder="Input your text here" ng-model="text" />
+                </label>
+            </form>
+        </div>
+    </ion-footer-bar>
 </ion-view>

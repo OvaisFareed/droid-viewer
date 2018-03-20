@@ -1,23 +1,20 @@
-<ion-view title="Video Call" class="video-chat" ng-init="initializeCtrl()">
-    
-    <ion-content>
-        <!--video chat-->
-        <!--start-->
-     <div id="videos">
-        <div id="subscriber"></div>
-        <div id="publisher"></div>
-    </div>
-<!--end-->
+<ion-view title="Video Call" class="video-chat" ng-init="initializeCtrl('Call')">
 
-</ion-content> 
-<ion-footer-bar>
-  <ion-toolbar>
-        <button type="button" class="button button-calm" ng-click="startVideoCall()" ng-disabled="requestInProgress">
+    <ion-content>
+        <div id="videos">
+            <div id="subscriber"></div>
+            <div id="publisher"></div>
+        </div>
+    </ion-content>
+    <ion-footer-bar>
+        <ion-toolbar>
+            <button type="button" class="button button-calm" ng-click="startVideoCall()" ng-disabled="requestInProgress">
                 <i class="icon ion-ios-telephone"></i> Call
-        </button>
-    <ion-title>Start a Video Call</ion-title>
-            
-  </ion-toolbar>
-</ion-footer-bar>
+            </button>
+            <ion-title>Start a Video Call</ion-title>
+            <button type="button" class="button button-assertive" ng-click="endVideoCall()" ng-disabled="!requestInProgress">
+                    <i class="icon ion-ios-telephone"></i> End Call
+            </button>
+        </ion-toolbar>
+    </ion-footer-bar>
 </ion-view>
- 

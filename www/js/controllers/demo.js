@@ -1,26 +1,36 @@
 angular.module('starter')
 
-    .controller('DemoCtrl', function ($scope, $http, SERVER_BASE_URL) {
-        // Go to https://tokbox.com/account to find your OpenTok
-        // API key and generate a test session ID and token:
+    .controller('DemoCtrl', function ($scope, $http, $state, $ionicPopup, $firebaseArray, SERVER_BASE_URL, FIREBASE_URL) {
         var apiKey = "", sessionId = "", token = "", session, sessionConnected = false;
         var alphabets = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         var shortId_length = 8;
+        var auth = firebase.auth();
+        var storageRef = firebase.storage().ref();
+        var messagesRef = new Firebase(FIREBASE_URL + '/messages');
+        var filesRef = new Firebase(FIREBASE_URL + '/files');
+        $scope.messages = $firebaseArray(messagesRef);
+        $scope.files = $firebaseArray(filesRef);
         $scope.dummyCouponCode = '';
         $scope.requestInProgress = false;
+        $scope.text = '';
 
         // initialize Controller
-        $scope.initializeCtrl = function (fromHome) {
-            $http.get(SERVER_BASE_URL + '/session')
-                .then(function (res) {
-                    apiKey = res.data.apiKey;
-                    sessionId = res.data.sessionId;
-                    token = res.data.token;
-                })
-                .catch(handleError);
-                if(fromHome){
-                    generateDummyCouponCode();
-                }
+        $scope.initializeCtrl = function (callFrom) {
+            if (callFrom == 'Home' || callFrom == 'Chat') {
+                generateDummyCouponCode();
+            }
+            else if (callFrom == 'fileShare') {
+                document.getElementById('file').addEventListener('change', handleFileSelect, false);
+            }
+            else {
+                $http.get(SERVER_BASE_URL + '/session')
+                    .then(function (res) {
+                        apiKey = res.data.apiKey;
+                        sessionId = res.data.sessionId;
+                        token = res.data.token;
+                    })
+                    .catch(handleError);
+            }
         }
 
         // start Video Call
@@ -29,9 +39,16 @@ angular.module('starter')
             initializeSession(apiKey, sessionId);
         }
 
+        // end Video Call
+        $scope.endVideoCall = function(){
+            session.disconnect();
+            $scope.requestInProgress = false;
+        }
+
+        /*
         // share Screen
         $scope.shareScreen = function () {
-            $scope.requestInProgress = true;            
+            $scope.requestInProgress = true;
             session = OT.initSession(apiKey, sessionId);
 
             session.connect(token, function (error) {
@@ -121,62 +138,67 @@ angular.module('starter')
             }
 
         }
+        */
 
         // initialize Session
-        
-            function initializeSession(apiKey, sessionId) {
-                session = OT.initSession(apiKey, sessionId);
+        function initializeSession(apiKey, sessionId) {
+            session = OT.initSession(apiKey, sessionId);
 
-                // Subscribe to a newly created stream
-                session.on('streamCreated', function (event) {
-                    session.subscribe(event.stream, 'subscriber', {
-                        insertMode: 'append',
-                        width: '100%',
-                        height: '100%'
-                    }, handleError);
-                });
-
-                // Create a publisher
-                var publisher = OT.initPublisher('publisher', {
+            // Subscribe to a newly created stream
+            session.on('streamCreated', function (event) {
+                session.subscribe(event.stream, 'subscriber', {
                     insertMode: 'append',
                     width: '100%',
                     height: '100%'
                 }, handleError);
+            });
 
-                // Connect to the session
-                session.connect(token, function (error) {
-                    // If the connection is successful, publish to the session
-                    if (error) {
-                        handleError(error);
-                    } else {
-                        session.publish(publisher, handleError);
-                    }
-                });
-            }
+            session.on("sessionDisconnected", function(event) {
+                console.log("The session disconnected. " + event.reason);
+                $scope.requestInProgress = false;         
+            });
 
-            $scope.share = function(t, msg, img, link){  
-                if(t == 'w')
-                    window.plugins.socialsharing
-                    .shareViaWhatsApp(msg, '', link);
-                else if(t == 'f')
-                    window.plugins.socialsharing
-                    .shareViaFacebook(msg, img, link);    
-                else if(t == 't')
-                    window.plugins.socialsharing
-                    .shareViaTwitter(msg, img, link);    
-                else if(t == 'sms')
-                    window.plugins.socialsharing
-                    .shareViaSMS(msg+' '+img+' '+link);    
-                else
-                {
-                    var sub = 'Beautiful images inside ..';
-                    window.plugins.socialsharing
-                    .shareViaEmail(msg, sub, '');        
+            // Create a publisher
+            var publisher = OT.initPublisher('publisher', {
+                insertMode: 'append',
+                width: '100%',
+                height: '100%'
+            }, handleError);
+
+            // Connect to the session
+            session.connect(token, function (error) {
+                // If the connection is successful, publish to the session
+                if (error) {
+                    handleError(error);
+                } else {
+                    session.publish(publisher, handleError);
                 }
-            }       
-            
-            // generate Dummy Coupon Code
-        function generateDummyCouponCode () {
+            });
+        }
+
+        // share your Unique Id on social media
+        $scope.share = function (t, msg, img, link) {
+            if (t == 'w')
+                cordova.plugins.socialsharing
+                    .shareViaWhatsApp(msg, '', link);
+            else if (t == 'f')
+                window.plugins.socialsharing
+                    .shareViaFacebook(msg, img, link);
+            else if (t == 't')
+                window.plugins.socialsharing
+                    .shareViaTwitter(msg, img, link);
+            else if (t == 'sms')
+                window.plugins.socialsharing
+                    .shareViaSMS(msg + ' ' + img + ' ' + link);
+            else {
+                var sub = 'Beautiful images inside ..';
+                window.plugins.socialsharing
+                    .shareViaEmail(msg, sub, '');
+            }
+        }
+
+        // generate Dummy Coupon Code
+        function generateDummyCouponCode() {
             for (var i = 0; i < shortId_length; i++) {
                 $scope.dummyCouponCode += alphabets.charAt(Math.floor(Math.random() * alphabets.length));
             }
@@ -189,4 +211,72 @@ angular.module('starter')
                 console.log(error.message);
             }
         }
+
+        // Adds new message
+        $scope.addMessage = function () {
+            $scope.messages.$add({
+                "text": $scope.text,
+                "id": $scope.dummyCouponCode
+            });
+            $scope.text = '';
+        };
+
+        $scope.deleteAll = function (ref) {
+            $ionicPopup.show({
+                title: 'Do you really want to Delete all?',
+                subTitle: ref,
+                scope: $scope,
+                buttons: [
+                  { text: 'Cancel', onTap: function(e) { return false; } },
+                  {
+                    text: '<b>Delete</b>',
+                    type: 'button-assertive',
+                    onTap: function(e) {
+                      return true;
+                    }
+                  },
+                ]
+                }).then(function(res) {
+                    if(res){
+                        var deleteRef = (ref == 'Files')  ? filesRef : messagesRef;
+                        deleteRef.remove();                        
+                    }
+                  console.log('Tapped!', res);
+                }, function(err) {
+                  console.log('Err:', err);
+                }, function(msg) {
+                  console.log('message:', msg);
+                });
+        }
+
+        // uploads file to firebase storage
+        function handleFileSelect(evt) {
+            evt.stopPropagation();
+            evt.preventDefault();
+            var file = evt.target.files[0];
+            var metadata = {
+                'contentType': file.type
+            };
+            storageRef.child('images/' + file.name).put(file, metadata).then(function (snapshot) {
+                console.log('Uploaded', snapshot.totalBytes, 'bytes.');
+                console.log(snapshot.metadata);
+                var url = snapshot.downloadURL;
+                console.log('File available at', url);
+                $scope.files.$add({
+                    name: file.name,
+                    downloadURL: url,
+                    type: file.type
+                })
+            }).catch(function (error) {
+                console.error('Upload failed:', error);
+            });
+        }
+
+        /*
+        $scope.logout = function () {
+            var ref = new Firebase(FIREBASE_URL);
+            ref.unauth();
+            $state.go('home');
+        };
+        */
     });
