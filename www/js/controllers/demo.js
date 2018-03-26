@@ -22,15 +22,13 @@ angular.module('starter')
             else if (callFrom == 'fileShare') {
                 document.getElementById('file').addEventListener('change', handleFileSelect, false);
             }
-            else {
-                $http.get(SERVER_BASE_URL + '/session')
-                    .then(function (res) {
-                        apiKey = res.data.apiKey;
-                        sessionId = res.data.sessionId;
-                        token = res.data.token;
-                    })
-                    .catch(handleError);
-            }
+            $http.get(SERVER_BASE_URL + '/session')
+                .then(function (res) {
+                    apiKey = res.data.apiKey;
+                    sessionId = res.data.sessionId;
+                    token = res.data.token;
+                })
+                .catch(handleError);
         }
 
         // start Video Call
